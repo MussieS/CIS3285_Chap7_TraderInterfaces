@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿
+using System.Reflection;
 using Unit8_SRP_F24.Contracts;
 
 namespace Unit8_SRP_F24;
@@ -8,15 +9,11 @@ class Program
 {
     static void Main(string[] args)
     {
-        var tradeStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Unit8_SRP_F24.trades.txt");
-        if (tradeStream is null)
-        {
-            Console.Error.WriteLine("Could not find the embedded trades.txt file.");
-            return;
-        }
+        string tradeURL = "https://raw.githubusercontent.com/tgibbons-css/CIS3285_Unit9_F24/refs/heads/master/SingleResponsibilityPrinciple/trades.txt";
+
         ILogger logger = new ConsoleLogger();
         ITradeValidator tradeValidator = new SimpleTradeValidator(logger);
-        ITradeDataProvider tradeDataProvider = new StreamTradeDataProvider(tradeStream, logger);
+        ITradeDataProvider tradeDataProvider = new URLTradeDataProvider(tradeURL, logger);
         ITradeMapper tradeMapper = new SimpleTradeMapper();
         ITradeParser tradeParser = new SimpleTradeParser(tradeValidator, tradeMapper);
         ITradeStorage tradeStorage = new AdoNetTradeStorage(logger);

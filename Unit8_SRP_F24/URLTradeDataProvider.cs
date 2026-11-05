@@ -1,3 +1,4 @@
+
 using Unit8_SRP_F24.Contracts;
 
 namespace Unit8_SRP_F24;
@@ -17,6 +18,32 @@ public class URLTradeDataProvider : ITradeDataProvider
     {
         logger.LogMessage("Reading trade data from URL: " + url);
         // -------------- Add your code here to fetch trade data from the URL and return it as an IEnumerable<string> --------------
-        throw new NotImplementedException();
+        List<string> tradeData = new List<string>();
+
+        using (HttpClient client = new HttpClient())
+        {
+            HttpResponseMessage response = client.GetAsync(url).Result;
+
+            if (!response.IsSuccessStatusCode)
+            {
+                logger.LogMessage("Error reading trade data from URL");
+                throw new HttpRequestException(
+                    "Failed to retrieve trade data: " + response.StatusCode);
+            }
+
+            using (Stream stream =
+                response.Content.ReadAsStreamAsync().Result)
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                string? line;
+
+                while ((line = reader.ReadLine()) != null)
+                {
+                    tradeData.Add(line);
+                }
+            }
+        }
+
+        return tradeData;
     }
 }
