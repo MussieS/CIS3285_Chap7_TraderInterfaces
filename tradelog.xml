@@ -1,0 +1,32 @@
+<log>
+  <type>INFO</type>
+  <message>Reading trade data from Restful API: https://unit9trader.azurewebsites.net/api/TradeData</message>
+</log>
+<log>
+  <type>INFO</type>
+  <message>INFO: Connecting to database</message>
+</log>
+<log>
+  <type>INFO</type>
+  <message>INFO: Going to open database connection</message>
+</log>
+<log>
+  <type>INFO</type>
+  <message>INFO: Database connection OPEN</message>
+</log>
+<log>
+  <type>INFO</type>
+  <message>INFO: Adding trade to database...</message>
+</log>
+<log>
+  <type>INFO</type>
+  <message>INFO: Adding trade to database...</message>
+</log>
+<log>
+  <type>INFO</type>
+  <message>INFO: Adding trade to database...</message>
+</log>
+<log>
+  <type>INFO</type>
+  <message>INFO: 3 trades processed</message>
+</log>
