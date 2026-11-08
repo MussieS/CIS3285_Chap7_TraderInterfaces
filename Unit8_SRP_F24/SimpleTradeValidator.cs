@@ -1,3 +1,4 @@
+
 using System;
 using Unit8_SRP_F24.Contracts;
 
@@ -30,10 +31,22 @@ public class SimpleTradeValidator : ITradeValidator
             return false;
         }
 
+        if (!fields[0].All(char.IsLetter))
+        {
+            logger.LogMessage("WARN: Trade currencies on line {0} malformed: '{1}'", currentLine, fields[0]);
+            return false;
+        }
+
         int tradeAmount;
         if (!int.TryParse(fields[1], out tradeAmount))
         {
             logger.LogMessage("WARN: Trade amount on line {0} not a valid integer: '{1}'", currentLine, fields[1]);
+            return false;
+        }
+
+        if (tradeAmount < 1000 || tradeAmount > 1000000)
+        {
+            logger.LogMessage("WARN: Trade amount on line {0} outside allowed range: '{1}'", currentLine, fields[1]);
             return false;
         }
 
@@ -43,6 +56,13 @@ public class SimpleTradeValidator : ITradeValidator
             logger.LogMessage("WARN: Trade price on line {0} not a valid decimal: '{1}'", currentLine, fields[2]);
             return false;
         }
+
+        if (tradePrice <= 0)
+        {
+            logger.LogMessage("WARN: Trade price on line {0} must be positive: '{1}'", currentLine, fields[2]);
+            return false;
+        }
+
         return true;
     }
 }
